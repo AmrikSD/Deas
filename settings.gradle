@@ -13,5 +13,5 @@ pluginManagement {
     includeBuild('build-logic')
 }
 
-rootProject.name = 'Daes'
+rootProject.name = 'Deas'
 include('app', 'list', 'utilities')

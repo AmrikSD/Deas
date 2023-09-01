@@ -1,4 +1,4 @@
-package daes.utilities.sql;
+package deas.utilities.sql;
 
 import java.sql.Connection;
 import java.sql.SQLException;

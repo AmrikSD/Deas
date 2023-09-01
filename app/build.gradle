@@ -5,7 +5,7 @@
  */
 
 plugins {
-    id 'daes.java-application-conventions'
+    id 'deas.java-application-conventions'
     id "org.flywaydb.flyway" version "9.21.1"
 }
 
@@ -18,7 +18,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'daes.app.App'
+    mainClass = 'deas.app.App'
 }
 
 

@@ -5,5 +5,5 @@
  */
 
 plugins {
-    id 'daes.java-library-conventions'
+    id 'deas.java-library-conventions'
 }

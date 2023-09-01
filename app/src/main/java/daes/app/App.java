@@ -1,11 +1,11 @@
-package daes.app;
+package deas.app;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static daes.utilities.sql.Account.insertAccount;
-import daes.utilities.sql.Account.AccountType;
+import static deas.utilities.sql.Account.insertAccount;
+import deas.utilities.sql.Account.AccountType;
 
 public class App {
 
