@@ -34,20 +34,45 @@ public class Tokenizer {
             return null;
         }
 
+        // Number
         char[] charArr = string.substring(cursor).toCharArray();
+        boolean isDigit = Character.isDigit(charArr[0]);
         boolean isNegative = charArr[0] == '-';
+        boolean isQuotes =  charArr[0] == '"' || charArr[0] == '\'';
 
-        if (!Character.isDigit(charArr[0]) && !isNegative){
-            return null;
+        if (isQuotes){
+            return getStringLiteral(charArr);
         }
 
+        if (isDigit || isNegative) {
+            return getNumberLiteral(charArr, isNegative);
+        }
+
+        return null;
+    }
+
+    private Token<String> getStringLiteral(char[] charArray){
+        char quote = charArray[0];
+        StringBuilder sb = new StringBuilder();
+        do {
+           sb.append(charArray[cursor++]);
+        } while (!isEOF() && charArray[cursor] != quote);
+        sb.append(quote);
+        cursor++;
+
+        return new Token<String>(sb.toString());
+
+    }
+
+    private Token<Integer> getNumberLiteral(char[] charArray, boolean isNegative){
+
         Deque<Integer> stack = new ArrayDeque<Integer>();
-        for (int i = 0; i< charArr.length; i++){
+        for (int i = 0; i < charArray.length; i++){
             if(i == 0 && isNegative){
                 continue;
             }
-            if(Character.isDigit(charArr[i])){
-                stack.push(Character.getNumericValue(charArr[i]));
+            if(Character.isDigit(charArray[i])){
+                stack.push(Character.getNumericValue(charArray[i]));
             } else{
                 break;
             }
@@ -68,6 +93,9 @@ public class Tokenizer {
 
     private boolean hasMoreTokens(){
         return cursor < string.length();
+    }
+    private boolean isEOF(){
+        return cursor == string.length();
     }
 
 }

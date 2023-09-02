@@ -38,10 +38,15 @@ public class App {
         ASTNode actual2 = parser.parse("1117");
 
 
+        ASTNode expected3 = new ASTNode(new Token("\"cool string\""));
+        ASTNode actual3 = parser.parse("\"cool string\"");
+
         System.out.println(expected.getValue());
         System.out.println(actual.getValue());
         System.out.println(expected2.getValue());
         System.out.println(actual2.getValue());
+        System.out.println(expected3.getValue());
+        System.out.println(actual3.getValue());
     }
 
 }

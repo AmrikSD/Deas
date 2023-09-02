@@ -24,7 +24,42 @@ public class Parser {
      *  ;
      */
     ASTNode deasFile(){
-        return this.numericalLiteral();
+        return this.literal();
+    }
+
+    /**
+     * Literal
+     *  : NumericalLiteral
+     *  | StringLiteral
+     *  ;
+     */
+    ASTNode literal(){
+        String type = lookAhead.value.getClass().getSimpleName();
+        switch(type){
+            case "String":
+                return stringLiteral();
+            case "Integer":
+                return numericalLiteral();
+            default:
+                throw new IllegalStateException("Unexpected token type ?? how are we even here");
+
+        }
+    }
+
+    /**
+     * StringLiteral
+     *  : STRING
+     *  ;
+     */
+    ASTNode<String> stringLiteral(){
+        try {
+            Token<String> token = eat(String.class);
+            return new ASTNode<String>(token);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ASTNode<String>(null);
+        }
+
     }
 
     /**
@@ -32,13 +67,13 @@ public class Parser {
      *  : NUMBER
      *  ;
      */
-    ASTNode numericalLiteral(){
+    ASTNode<Integer> numericalLiteral(){
         try {
             Token<Integer> token = eat(Integer.class);
-            return new ASTNode(token);
+            return new ASTNode<Integer>(token);
         } catch (Exception e) {
             System.out.println(e);
-            return new ASTNode(null);
+            return new ASTNode<>(null);
         }
 
     }
