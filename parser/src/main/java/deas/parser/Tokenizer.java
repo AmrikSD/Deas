@@ -29,28 +29,41 @@ public class Tokenizer {
     }
 
     public Token getNextToken(){
+
         if (!hasMoreTokens()){
             return null;
         }
 
         char[] charArr = string.substring(cursor).toCharArray();
+        boolean isNegative = charArr[0] == '-';
 
-        if (!Character.isDigit(charArr[0])){
+        if (!Character.isDigit(charArr[0]) && !isNegative){
             return null;
         }
 
-        int i = 0;
-        int acc = 0;
-        for (char c : charArr){
-            if(Character.isDigit(c)){
-                acc += c * Math.pow(10,i);
-                i++;
+        Deque<Integer> stack = new ArrayDeque<Integer>();
+        for (int i = 0; i< charArr.length; i++){
+            if(i == 0 && isNegative){
+                continue;
+            }
+            if(Character.isDigit(charArr[i])){
+                stack.push(Character.getNumericValue(charArr[i]));
             } else{
                 break;
             }
         }
-        this.cursor += i;
-        return new Token(acc);
+
+        int i = 0;
+        int acc = 0;
+        for (Integer integer : stack) {
+            acc += integer * Math.pow(10,i++);
+        }
+
+        if (isNegative){
+            acc = acc * -1;
+        }
+
+        return new Token<Integer>(acc);
     }
 
     private boolean hasMoreTokens(){
