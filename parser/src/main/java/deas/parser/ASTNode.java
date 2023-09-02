@@ -1,9 +1,13 @@
 package deas.parser;
 
 public class ASTNode<T> {
-    public T value;
+    public Token<T> token;
 
-    public ASTNode(T t){
-        this.value = t;
+    public ASTNode(Token<T> token){
+        this.token = token;
+    }
+
+    public T getValue(){
+        return token.value;
     }
 }

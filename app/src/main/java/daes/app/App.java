@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import static deas.utilities.sql.Account.insertAccount;
 import deas.utilities.sql.Account.AccountType;
+import deas.parser.*;
 
 public class App {
 
@@ -26,7 +27,21 @@ public class App {
             System.out.println(e);
         }
 
-        System.out.println("Hello!");
+
+
+        Parser parser = new Parser();
+
+        ASTNode expected = new ASTNode(new Token(Integer.MAX_VALUE));
+        ASTNode actual = parser.parse("2147483647");
+
+        ASTNode expected2 = new ASTNode(new Token(1117));
+        ASTNode actual2 = parser.parse("1117");
+
+
+        System.out.println(expected.getValue());
+        System.out.println(actual.getValue());
+        System.out.println(expected2.getValue());
+        System.out.println(actual2.getValue());
     }
 
 }
