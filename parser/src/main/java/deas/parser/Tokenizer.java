@@ -1,6 +1,7 @@
 package deas.parser;
 
-import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Tokenizer
@@ -22,6 +23,7 @@ public class Tokenizer {
 
     public void setString(String string){
         this.string = string;
+        this.cursor = 0;
     }
 
     public void setCursor(int cursor){
@@ -52,43 +54,37 @@ public class Tokenizer {
     }
 
     private Token<String> getStringLiteral(char[] charArray){
-        char quote = charArray[0];
-        StringBuilder sb = new StringBuilder();
-        do {
-           sb.append(charArray[cursor++]);
-        } while (!isEOF() && charArray[cursor] != quote);
-        sb.append(quote);
-        cursor++;
+        Pattern pattern = Pattern.compile("^([\"'])(\\w\\s?)*?\\1$");
+        Matcher matcher = pattern.matcher(string);
+        boolean matchFound = matcher.find();
 
-        return new Token<String>(sb.toString());
+        if(!matchFound){
+            System.err.println("not found");
+            return new Token<String>(null);
+        }
 
+        String match = matcher.group();
+        cursor += matcher.group().length();
+        
+        return new Token<String>(match);
     }
 
     private Token<Integer> getNumberLiteral(char[] charArray, boolean isNegative){
 
-        Deque<Integer> stack = new ArrayDeque<Integer>();
-        for (int i = 0; i < charArray.length; i++){
-            if(i == 0 && isNegative){
-                continue;
-            }
-            if(Character.isDigit(charArray[i])){
-                stack.push(Character.getNumericValue(charArray[i]));
-            } else{
-                break;
-            }
+        Pattern pattern = Pattern.compile("^-?\\d+$");
+        Matcher matcher = pattern.matcher(string);
+        boolean matchFound = matcher.find();
+
+        if(!matchFound){
+            System.err.println("not found");
+            return new Token<Integer>(null);
         }
 
-        int i = 0;
-        int acc = 0;
-        for (Integer integer : stack) {
-            acc += integer * Math.pow(10,i++);
-        }
+        int match = Integer.parseInt(matcher.group());
+        cursor += matcher.group().length();
+        
+        return new Token<Integer>(match);
 
-        if (isNegative){
-            acc = acc * -1;
-        }
-
-        return new Token<Integer>(acc);
     }
 
     private boolean hasMoreTokens(){
