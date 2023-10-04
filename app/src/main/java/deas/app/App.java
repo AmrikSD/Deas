@@ -10,6 +10,7 @@ import deas.parser.*;
 
 public class App {
 
+
     public static void main(String[] args) {
 
 
@@ -19,10 +20,10 @@ public class App {
 
         try(Connection conn = DriverManager.getConnection(url, userName, password)){
 
-           int inserted = insertAccount(conn, "Barclays", AccountType.INCOME);
+            int inserted = insertAccount(conn, "Barclays", AccountType.INCOME);
             System.out.println(inserted);
 
-            
+
         } catch (SQLException e){
             System.out.println(e);
         }
@@ -47,6 +48,8 @@ public class App {
         System.out.println(actual2.getValue());
         System.out.println(expected3.getValue());
         System.out.println(actual3.getValue());
+
     }
+
 
 }
